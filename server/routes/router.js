@@ -32,7 +32,7 @@ route.get("/add-product",services.add_product);
 route.get("/update-product",services.update_product);
 
 //############### controller methods ###################
-route.get("/api/users/:id", controller.find); // do we need id??
+route.get("/api/users", controller.find); 
 route.post("/api/users", controller.create);
 route.put("/api/users/:id", controller.update);
 route.delete("/api/users/:id", controller.delete);

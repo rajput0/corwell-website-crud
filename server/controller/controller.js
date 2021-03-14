@@ -29,20 +29,67 @@ exports.create = (req, res)=>{
             // TODO maybe wrong
             res.status(500).send(`error: ${err.message || "Some error occured while creating product"}`)
         })
-    
 }
 
 // function for - find a user by id
 exports.find = (req, res)=>{
+    // find single product
+    const id = req.query.id;
+    if( id ){
+        productDB.findById(id)
+            .then(product => {
+                if(!product) {
+                    return res.status(404).send(`No user found with id: ${id}`)
+                } 
+                console.log("product    " + product);
+                return res.send(product);
+            })
+            .catch(err=>{
+               return res.status(500).send("errorrr "+ err.message || 'something went wrong while fetching user');
+            })
+            
+    }else{
+        // find all products
+        productDB.find()
+        .then(products => {
+            res.send(products);
+        })
+        .catch(err=>{
+            res.status(500).send(`error: ${err.message || "problem retriving information"}`)
+        })
+    }
     
+        
 }
 
 // func for - update user by id
 exports.update = (req, res)=>{
-    
+    if(!req.body) return res.status(404).send('data to be updated not found!');
+
+    const id = req.params.id;
+    productDB.findByIdAndUpdate(id, req.body, {useFindAndModify: false})
+        .then(data=>{
+            if(!data){
+                res.status(404).send(`cannot update user with id ${id}`);
+            }else{
+                res.send(data)
+            }
+        })
+        .catch(err=>{
+            res.status(505).send(`Error while updating user information`);
+        })
 }
 
 // func for - delete user by id
 exports.delete = (req, res)=>{
-    
+    const id = req.params.id;
+    productDB.findByIdAndDelete(id)
+        .then(data => {
+            if(!data) res.status(404).send('no user found to delete')
+            else res.send('user deleted successfully');
+        })
+        .catch(err=>{
+            res.status(500).send('internal error occured while deleting user')
+        })
+
 }
