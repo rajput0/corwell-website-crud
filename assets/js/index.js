@@ -13,7 +13,7 @@ $('#temp').submit(function(event){
     console.log('data from index.js', data, data.id)
 
     let request = $.ajax({
-        url: "/api/products/"+data.id, 
+        url: "https://corwell.herokuapp.com//api/products/"+data.id, 
         type: 'PUT',   //type is any HTTP method
         data: data,
         success: function () {
@@ -34,7 +34,7 @@ $('.btn_delete_product').click(function(){
         console.log(product_id);
         
         let request = $.ajax({
-            url: "/api/products/"+product_id, 
+            url: "https://corwell.herokuapp.com//api/products/"+product_id, 
             type: 'DELETE',   //type is any HTTP method
             data: {id: product_id},
             success: function () {
