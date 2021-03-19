@@ -14,16 +14,20 @@ exports.create = (req, res)=>{
     // else create a product with provided req.body
     const product = new productDB({
         productName: req.body.productName,
+        productDescription: req.body.productDescription, 
         productPriceNew: parseFloat(req.body.productPriceNew),
-        productPriceOld: parseFloat(req.body.productPriceOld),
+        productPriceOld: req.body.productPriceOld=="" ? 0 : parseFloat(req.body.productPriceOld),
         images: req.body.images, //TODO figure out a way to send images from req.body
-        isAvailable: req.body.isAvailable 
+        isAvailable: (true ? req.body.isAvailable == 'on' : false)
     });
+
+    console.log(req.body);
 
     product
         .save(product)
         .then(data => {
-            res.send(data)
+            //res.send(data)
+            res.redirect('/add-product')
         })
         .catch(err=>{
             // TODO maybe wrong
@@ -41,7 +45,7 @@ exports.find = (req, res)=>{
                 if(!product) {
                     return res.status(404).send(`No user found with id: ${id}`)
                 } 
-                console.log("product    " + product);
+                //console.log("product    " + product);
                 return res.send(product);
             })
             .catch(err=>{
@@ -62,22 +66,46 @@ exports.find = (req, res)=>{
         
 }
 
-// func for - update user by id
+// func for - update product by id
 exports.update = (req, res)=>{
-    if(!req.body) return res.status(404).send('data to be updated not found!');
-
+    //if(!req.body) return res.status(404).send('data to be updated not found!');
+    console.log(req.body, 'is req.body')
     const id = req.params.id;
+    // set isAvailable variables
+    if(req.body.isAvailable === 'on') req.body.isAvailable = true;
+    if(!req.body.isAvailable) req.body.isAvailable = false;
+    console.log('inside controller', req.body)
     productDB.findByIdAndUpdate(id, req.body, {useFindAndModify: false})
         .then(data=>{
             if(!data){
                 res.status(404).send(`cannot update user with id ${id}`);
             }else{
-                res.send(data)
+                //res.send(data)
+                res.redirect("/")
             }
         })
         .catch(err=>{
             res.status(505).send(`Error while updating user information`);
         })
+    // const id = req.param.id;    
+    // if(!req.body) return res.status(400).send('data to be send is not found');
+    // let data = req.body;
+    // if(data.isAvailable === 'on') data.isAvailable = true;
+
+    // console.log('from controller', data);
+    // productDB.findByIdAndUpdate(id, data, {useFindAndModify: false})
+    //     .then(data=>{
+    //         if(!data){
+    //             res.status(404).send(`cannot update user with id ${id}`);
+    //     }else{
+    //             //res.send(data)
+    //             res.redirect("/")
+    //         }
+    //     })
+    //     .catch(err=>{
+    //         res.status(505).send(`Error while updating user information`);
+    //     })
+    console.log('controller exited');
 }
 
 // func for - delete user by id
@@ -91,5 +119,4 @@ exports.delete = (req, res)=>{
         .catch(err=>{
             res.status(500).send('internal error occured while deleting user')
         })
-
 }

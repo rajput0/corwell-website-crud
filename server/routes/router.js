@@ -12,7 +12,8 @@ const services = require('../services/render');
 // crud functions
 const controller = require('../controller/controller');
 
-
+//############### router declarations ###################
+// invokes when someone navigates to the defined route
 /**
  * @description home route
  * @method GET /
@@ -32,10 +33,11 @@ route.get("/add-product",services.add_product);
 route.get("/update-product",services.update_product);
 
 //############### controller methods ###################
-route.get("/api/users", controller.find); 
-route.post("/api/users", controller.create);
-route.put("/api/users/:id", controller.update);
-route.delete("/api/users/:id", controller.delete);
+// - invokes when someone makes a request
+route.get("/api/products", controller.find); 
+route.post("/api/products", controller.create);
+route.put("/api/products/:id", controller.update);
+route.delete("/api/products/:id", controller.delete);
 
 
 

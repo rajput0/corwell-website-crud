@@ -5,6 +5,10 @@ var schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    productDescription: {
+        type: String,
+        required: false
+    },
     productPriceNew: {
         type: Number,
         required: true
