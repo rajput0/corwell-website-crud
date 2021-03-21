@@ -12,6 +12,9 @@ const services = require('../services/render');
 // crud functions
 const controller = require('../controller/controller');
 
+// multer middleware for file upload
+const multer = require('../middleware/multer');
+
 //############### router declarations ###################
 // invokes when someone navigates to the defined route
 /**
@@ -35,7 +38,9 @@ route.get("/update-product",services.update_product);
 //############### controller methods ###################
 // - invokes when someone makes a request
 route.get("/api/products", controller.find); 
-route.post("/api/products", controller.create);
+
+route.post("/api/products", multer.array('productImages',12), controller.create);
+
 route.put("/api/products/:id", controller.update);
 route.delete("/api/products/:id", controller.delete);
 

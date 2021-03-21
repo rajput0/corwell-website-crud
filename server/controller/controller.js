@@ -7,9 +7,14 @@ var productDB = require('../model/model');
  */
 
 // function for - create and save new product
-exports.create = (req, res)=>{
+exports.create = (req, res, next)=>{
     // return error if req.body is empty
+    console.log(req)
+
     if(!req.body) return res.status(400).send('Content can not be empty');
+
+    const files = req.files
+    console.log(files);
 
     // else create a product with provided req.body
     const product = new productDB({
@@ -21,23 +26,19 @@ exports.create = (req, res)=>{
         isAvailable: (true ? req.body.isAvailable == 'on' : false)
     });
 
-    console.log(req.body);
-
     product
         .save(product)
         .then(data => {
-            //res.send(data)
             res.redirect('/add-product')
         })
         .catch(err=>{
-            // TODO maybe wrong
             res.status(500).send(`error: ${err.message || "Some error occured while creating product"}`)
         })
 }
 
-// function for - find a user by id
+// function for - find a user by id/find all users
 exports.find = (req, res)=>{
-    // find single product
+    // find single product if id is provided
     const id = req.query.id;
     if( id ){
         productDB.findById(id)
@@ -49,9 +50,8 @@ exports.find = (req, res)=>{
                 return res.send(product);
             })
             .catch(err=>{
-               return res.status(500).send("errorrr "+ err.message || 'something went wrong while fetching user');
+               return res.status(500).send("_error: "+ err.message || 'something went wrong while fetching user');
             })
-            
     }else{
         // find all products
         productDB.find()
@@ -59,11 +59,9 @@ exports.find = (req, res)=>{
             res.send(products);
         })
         .catch(err=>{
-            res.status(500).send(`error: ${err.message || "problem retriving information"}`)
+            res.status(500).send(`_error: ${err.message || "problem retriving information"}`)
         })
-    }
-    
-        
+    }      
 }
 
 // func for - update product by id

@@ -17,7 +17,7 @@
     <p class="card-text"><%=products[i].productDescription%></p>
     <div class="price-wrap h5">
         <span class="price-new">$<%= products[i].productPriceNew %></span>
-        <del class="price-old" ><%= (products[i].productPriceOld == 0 ? '' : '$'+products[i].productPriceOld)  %></del>
+        <del class="price-old text-secondary" ><small><%= (!products[i].productPriceOld ? '' : '$'+products[i].productPriceOld)  %></small></del>
     </div>
     <a href="#" class="btn btn-primary">View</a>
     <!-- we want to make a put request when we click on this EDIT button
@@ -28,4 +28,5 @@
     <button data_id="<%= products[i]._id %>" class="btn btn-danger btn_delete_product">Delete</button>
     </div>
 </div> 
+
 <% } %>

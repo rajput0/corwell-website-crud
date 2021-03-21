@@ -17,17 +17,19 @@
     
       <div class="form-group">
         <label for="productDescription">Product Description</label>
-        <textarea  type="text" name="productDescription" value="<%=product.productDescription%>" class="form-control" id="productDescription" aria-describedby="Product Description" placeholder="Enter Product Description"></textarea>
+        <textarea  type="text" name="productDescription"  class="form-control" id="productDescription" aria-describedby="Product Description" placeholder="Enter Product Description">
+          <%=product.productDescription%>
+        </textarea>
       </div>
       
       <div class="form-group">
         <label for="productPriceNew">New Product Price</label>
-        <input required value="<%=product.productPriceNew%>" type="number" name="productPriceNew" class="form-control" id="productPriceNew" placeholder="Enter New Price">
+        <input required value="<%=product.productPriceNew%>" type="number" step=".01" name="productPriceNew" class="form-control" id="productPriceNew" placeholder="Enter New Price">
       </div>
     
       <div class="form-group">
           <label for="productPriceOld">Old Product Price</label>
-          <input value="<%=product.productPriceOld%>" type="number" name="productPriceOld" class="form-control" id="productPriceOld" placeholder="Enter Old Price">
+          <input value="<%=product.productPriceOld%>" type="number" step=".01" name="productPriceOld" class="form-control" id="productPriceOld" placeholder="Enter Old Price">
       </div>
     
       <div class="form-check">
