@@ -13,12 +13,12 @@ const fs = require('fs'); // fs -> node file system
 // function for - create and save new product
 exports.create = (req, res, next)=>{
     // return error if req.body is empty
-    console.log(req)
+    //console.log(req)
 
     if(!req.body) return res.status(400).send('Content can not be empty');
 
     const files = req.files
-    console.log(files);
+    //console.log(files);
     if(!files){
         const error = new Error('Please choose files');
         error.httpStatusCode = 400;
