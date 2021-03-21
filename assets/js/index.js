@@ -1,7 +1,7 @@
 console.log("from index.js");
 
-//const deployment_url = 'http://localhost:3000';
-const deployment_url = 'https://corwell.herokuapp.com';
+const deployment_url = 'http://localhost:3000';
+//const deployment_url = 'https://corwell.herokuapp.com';
 
 $('#temp').submit(function(event){
     //console.log('temp clicked')

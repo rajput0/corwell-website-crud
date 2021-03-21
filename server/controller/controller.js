@@ -1,4 +1,8 @@
-var productDB = require('../model/model');
+var productDB = require('../model/model'); // model for productDB Collection
+var productImages = require('../model/model_images'); // model for productImages Collection
+const fs = require('fs'); // fs -> node file system
+
+
 
 /**
  * all the crud operations will be happening in this file
@@ -15,14 +19,40 @@ exports.create = (req, res, next)=>{
 
     const files = req.files
     console.log(files);
+    if(!files){
+        const error = new Error('Please choose files');
+        error.httpStatusCode = 400;
+        return next(error);
+    } 
 
-    // else create a product with provided req.body
+    // now storing all the images to base64 to store it into mongodb
+    let imgArray = files.map((file)=>{
+        let img = fs.readFileSync(file.path);
+        return encode_image = img.toString('base64');
+    });
+
+    //res.json(files);
+
+
+    // // storing images into database
+
+    // const images = new productImages({
+    //     productId : req.body._id,
+    //     fileName : files.orignalName,
+    //     contentType : files.mimetype,
+    //     imageBase64 : ''
+    // });
+
+    // images
+    //     .save(images)
+
+    // create a product with provided req.body
     const product = new productDB({
         productName: req.body.productName,
         productDescription: req.body.productDescription, 
         productPriceNew: parseFloat(req.body.productPriceNew),
         productPriceOld: req.body.productPriceOld=="" ? 0 : parseFloat(req.body.productPriceOld),
-        images: req.body.images, //TODO figure out a way to send images from req.body
+        images: imgArray, //TODO figure out a way to send images from req.body
         isAvailable: (true ? req.body.isAvailable == 'on' : false)
     });
 
@@ -34,6 +64,7 @@ exports.create = (req, res, next)=>{
         .catch(err=>{
             res.status(500).send(`error: ${err.message || "Some error occured while creating product"}`)
         })
+
 }
 
 // function for - find a user by id/find all users
