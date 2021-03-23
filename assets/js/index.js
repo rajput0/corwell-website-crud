@@ -1,8 +1,11 @@
-console.log("from index.js");
-
 //const deployment_url = 'http://localhost:3000';
 const deployment_url = 'https://corwell.herokuapp.com';
 
+
+
+/* //////////////////////////
+ This was the update product code, instead of sending an ajax post req I am using method override midelware
+////////////////////////////////
 $('#temp').submit(function(event){
     //console.log('temp clicked')
     event.preventDefault();
@@ -28,7 +31,7 @@ $('#temp').submit(function(event){
     $.ajax(request).done(function(response){
         alert('Product Updated');
     })
-})
+}) */
 
 $('.btn_delete_product').click(function(){
     //event.persist();

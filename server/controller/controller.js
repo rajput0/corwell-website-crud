@@ -96,14 +96,28 @@ exports.find = (req, res)=>{
 }
 
 // func for - update product by id
-exports.update = (req, res)=>{
-    //if(!req.body) return res.status(404).send('data to be updated not found!');
-    console.log(req.body, 'is req.body')
+exports.update = (req, res, next)=>{
+    
+    //console.log(req.body, 'is req.body')
     const id = req.params.id;
     // set isAvailable variables
     if(req.body.isAvailable === 'on') req.body.isAvailable = true;
     if(!req.body.isAvailable) req.body.isAvailable = false;
-    console.log('inside controller', req.body)
+
+    // set images
+    const files = req.files
+    
+    if(files.length){
+        let imgArray = files.map((file)=>{
+            let img = fs.readFileSync(file.path);
+            return encode_image = img.toString('base64');
+        });
+
+        req.body.images = imgArray;
+        console.log(files);
+    }
+
+    //console.log('inside controller', req.body)
     productDB.findByIdAndUpdate(id, req.body, {useFindAndModify: false})
         .then(data=>{
             if(!data){
@@ -134,7 +148,7 @@ exports.update = (req, res)=>{
     //     .catch(err=>{
     //         res.status(505).send(`Error while updating user information`);
     //     })
-    console.log('controller exited');
+    //console.log('controller exited');
 }
 
 // func for - delete user by id

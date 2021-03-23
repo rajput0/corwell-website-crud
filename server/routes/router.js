@@ -41,7 +41,8 @@ route.get("/api/products", controller.find);
 
 route.post("/api/products", multer.array('productImages',12), controller.create);
 
-route.put("/api/products/:id", controller.update);
+route.put("/api/products/:id", multer.array('productImages',12), controller.update);
+
 route.delete("/api/products/:id", controller.delete);
 
 

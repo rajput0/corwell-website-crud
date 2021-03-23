@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const path = require('path');
+const methodOverride = require('method-override');
 
 const connectDB = require('./server/database/connection');
 
@@ -27,6 +28,8 @@ app.set('view engine','ejs');
 app.use('/css',express.static(path.resolve(__dirname,"assets/css")));
 app.use('/img',express.static(path.resolve(__dirname,"assets/img")));
 app.use('/js',express.static(path.resolve(__dirname,"assets/js")));
+
+app.use(methodOverride('_method'))
 
 app.use('/', require('./server/routes/router'));
 

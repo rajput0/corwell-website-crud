@@ -8,7 +8,13 @@
     <a href="/" class='btn btn-primary'>All Products</a>
     <h1>Update Product</h1>
     <!-- form -->
-    <form id="temp" method="POST">
+    <form id="temp" method="POST" action="/api/products/<%=product._id%>?_method=PUT" enctype="multipart/form-data">
+
+      <div class="form-group">
+        <label for="productImages">Product Images</label>
+        <input multiple type="file" class="form-control" name="productImages" id="productImages" aria-describedby="Product Images" placeholder="Upload Product Image">
+      </div>
+
       <div class="form-group">
         <label for="productName">Product Name</label>
         <input type="hidden" name="id" value= "<%=product._id%>" >
